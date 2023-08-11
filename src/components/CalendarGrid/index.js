@@ -1,3 +1,4 @@
+import moment from "moment";
 import React from "react";
 import { styled } from "styled-components";
 
@@ -25,14 +26,24 @@ const DayWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: 2px;
+`;
+const CurrentDay = styled.div`
+  height: 100%;
+  width: 100%;
+  background: #f00;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const CalendarGrid = ({ startDay }) => {
   //   const totalDays = 42;
   const day = startDay.clone().subtract(1, "day");
   const daysArray = [...Array(42)].map(() => day.add(1, "day").clone());
+  const isCurrentDay = (day) => moment().isSame(day,'day');
 
-  console.log(daysArray);
   return (
     <GridWrapper>
       {daysArray.map((dayItem) => (
@@ -41,7 +52,12 @@ const CalendarGrid = ({ startDay }) => {
           $isweekend={dayItem.day() === 6 || dayItem.day() === 0}
         >
           <RowCell $justifycontent={"flex-end"}>
-            <DayWrapper>{dayItem.format("D")}</DayWrapper>
+            <DayWrapper>
+              {!isCurrentDay(dayItem) && dayItem.format("D")}
+              {isCurrentDay(dayItem) && (
+                <CurrentDay>{dayItem.format("D")}</CurrentDay>
+              )}
+            </DayWrapper>
           </RowCell>
         </CellWrapper>
       ))}
