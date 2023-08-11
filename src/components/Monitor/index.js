@@ -17,10 +17,9 @@ const TitleWrapper = styled(TextWrapper)`
   margin-right: 8px;
 `;
 const ButtonsWrapper = styled.div`
-  display:flex;
-  align-items:center;
-
-`
+  display: flex;
+  align-items: center;
+`;
 const ButtonWrapper = styled.button`
   border: unset;
   background-color: #565759;
@@ -39,8 +38,8 @@ const Monitor = ({ today }) => {
   return (
     <Wrapper>
       <div>
-        <TitleWrapper>{today.format('MMMM')}</TitleWrapper>
-        <TextWrapper>{today.format('YYYY')} </TextWrapper>
+        <TitleWrapper>{today.format("MMMM")}</TitleWrapper>
+        <TextWrapper>{today.format("YYYY")} </TextWrapper>
       </div>
       <ButtonsWrapper>
         <ButtonWrapper> &lt; </ButtonWrapper>
