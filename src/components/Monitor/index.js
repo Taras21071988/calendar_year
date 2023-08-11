@@ -27,6 +27,8 @@ const ButtonWrapper = styled.button`
   margin-right: 2px;
   border-radius: 4px;
   color: #e6e6e6;
+  outline: unset;
+  cursor: pointer;
 `;
 const TodayButton = styled(ButtonWrapper)`
   font-weight: 700;
