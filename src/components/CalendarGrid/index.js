@@ -39,9 +39,9 @@ const CurrentDay = styled.div`
   justify-content: center;
 `;
 
-const CalendarGrid = ({ startDay, today }) => {
+const CalendarGrid = ({ startDay, today, totalDay }) => {
   const day = startDay.clone().subtract(1, "day");
-  const daysArray = [...Array(42)].map(() => day.add(1, "day").clone());
+  const daysArray = [...Array(totalDay)].map(() => day.add(1, "day").clone());
   const isCurrentDay = (day) => moment().isSame(day, "day");
   const isSelectedMonth = (day) => today.isSame(day, "month");
 
