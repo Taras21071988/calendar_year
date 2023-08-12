@@ -18,7 +18,6 @@ const ShadowWrapper = styled.div`
 
 function App() {
   moment.updateLocale("en", { week: { dow: 1 } });
-  // const today = moment();
 
   const [today, setToday] = useState(moment());
   const startDay = today.clone().startOf("month").startOf("week");
@@ -26,7 +25,9 @@ function App() {
   const prevHandler = () => {
     setToday((prev) => prev.clone().subtract(1, "month"));
   };
-  const todayHandler = () => {setToday(moment())};
+  const todayHandler = () => {
+    setToday(moment());
+  };
   const nextHandler = () => {
     setToday((prev) => prev.clone().add(1, "month"));
   };
@@ -40,7 +41,7 @@ function App() {
         todayHandler={todayHandler}
         nextHandler={nextHandler}
       />
-      <CalendarGrid startDay={startDay} />
+      <CalendarGrid startDay={startDay} today={today} />
     </ShadowWrapper>
   );
 }

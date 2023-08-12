@@ -13,13 +13,13 @@ const CellWrapper = styled.div`
   min-width: 140px;
   min-height: ${(props) => (props.$isheader ? 24 : 80)}px;
   background-color: ${(props) => (props.$isweekend ? "#272829" : "#1e1f21")};
-  color: #dddcdd;
+  color: ${(props) => (props.$isselectedmonth ? "#dddddd" : "#555759")};
 `;
 const RowCell = styled.div`
   display: flex;
   justify-content: ${(props) =>
     props.$justifycontent ? props.$justifycontent : "flex-start"};
-  ${(props) => props.pr && `padding-right: ${props.pr * 8}px`}
+  ${(props) => props.$pr && `padding-right: ${props.$pr * 8}px`}
 `;
 const DayWrapper = styled.div`
   height: 33px;
@@ -39,17 +39,18 @@ const CurrentDay = styled.div`
   justify-content: center;
 `;
 
-const CalendarGrid = ({ startDay }) => {
+const CalendarGrid = ({ startDay, today }) => {
   const day = startDay.clone().subtract(1, "day");
   const daysArray = [...Array(42)].map(() => day.add(1, "day").clone());
   const isCurrentDay = (day) => moment().isSame(day, "day");
+  const isSelectedMonth = (day) => today.isSame(day, "month");
 
   return (
     <>
       <GridWrapper $isheader>
         {[...Array(7)].map((_, i) => (
-          <CellWrapper $isheader>
-            <RowCell $justifycontent={"flex-end"} pr={1}>
+          <CellWrapper $isheader $isselectedmonth>
+            <RowCell $justifycontent={"flex-end"} $pr={1}>
               {moment()
                 .day(i + 1)
                 .format("ddd")}
@@ -62,6 +63,7 @@ const CalendarGrid = ({ startDay }) => {
           <CellWrapper
             key={dayItem.format("DDMMYYYY")}
             $isweekend={dayItem.day() === 6 || dayItem.day() === 0}
+            $isselectedmonth={isSelectedMonth(dayItem)}
           >
             <RowCell $justifycontent={"flex-end"}>
               <DayWrapper>
