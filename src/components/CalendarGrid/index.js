@@ -39,7 +39,7 @@ const CurrentDay = styled.div`
   justify-content: center;
 `;
 
-const CalendarGrid = ({ startDay, today, totalDay }) => {
+const CalendarGrid = ({ startDay, today, totalDay, events }) => {
   const day = startDay.clone().subtract(1, "day");
   const daysArray = [...Array(totalDay)].map(() => day.add(1, "day").clone());
   const isCurrentDay = (day) => moment().isSame(day, "day");
@@ -67,9 +67,10 @@ const CalendarGrid = ({ startDay, today, totalDay }) => {
           >
             <RowCell $justifycontent={"flex-end"}>
               <DayWrapper>
-                {!isCurrentDay(dayItem) && dayItem.format("D")}
-                {isCurrentDay(dayItem) && (
+                {isCurrentDay(dayItem) ? (
                   <CurrentDay>{dayItem.format("D")}</CurrentDay>
+                ) : (
+                  dayItem.format("D")
                 )}
               </DayWrapper>
             </RowCell>

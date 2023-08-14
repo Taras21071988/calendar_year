@@ -44,9 +44,9 @@ function App() {
       .then((res) => res.json())
       .then((res) => {
         setEvents(res);
-        console.log(res);
+
       });
-  }, []);
+  }, [today]);
 
   return (
     <ShadowWrapper>
@@ -57,7 +57,12 @@ function App() {
         todayHandler={todayHandler}
         nextHandler={nextHandler}
       />
-      <CalendarGrid startDay={startDay} today={today} totalDay={totalDay} />
+      <CalendarGrid
+        startDay={startDay}
+        today={today}
+        totalDay={totalDay}
+        events={events}
+      />
     </ShadowWrapper>
   );
 }
