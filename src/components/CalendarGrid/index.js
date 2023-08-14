@@ -101,7 +101,7 @@ const CalendarGrid = ({
           >
             <RowCell $justifycontent={"flex-end"}>
               <ShowDayWrapper>
-                <DayWrapper onDoubleClick={() => openFormHandler("Create")}>
+                <DayWrapper onDoubleClick={() => openFormHandler("create")}>
                   {isCurrentDay(dayItem) ? (
                     <CurrentDay>{dayItem.format("D")}</CurrentDay>
                   ) : (
@@ -119,7 +119,7 @@ const CalendarGrid = ({
                   .map((event) => (
                     <li key={event.id}>
                       <EventItemWrapper
-                        onDoubleClick={() => openFormHandler("Update", event)}
+                        onDoubleClick={() => openFormHandler("update", event)}
                       >
                         {event.title}
                       </EventItemWrapper>

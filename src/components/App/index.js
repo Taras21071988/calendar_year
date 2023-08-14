@@ -121,6 +121,31 @@ function App() {
       [field]: text,
     }));
   };
+
+  const eventFetchHandler = () => {
+    const fetchUrl =
+      method === "update" ? `${url}/events/${event.id}` : `${url}/events`;
+    const httpMethod = method === "update" ? "PATCH" : "POST";
+    fetch(fetchUrl, {
+      method: httpMethod,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(event),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res);
+        if (method === "update") {
+          setEvents((prevState) =>
+            prevState.map((eventEl) => (eventEl.id === res.id ? res : eventEl))
+          );
+        } else {
+          setEvents((prevState) => [...prevState, res]);
+        }
+        cancelButtonHandler();
+      });
+  };
   return (
     <>
       {isShowForm ? (
@@ -138,7 +163,7 @@ function App() {
             />
             <ButtonWrapper>
               <button onClick={cancelButtonHandler}>Cancel</button>
-              <button>{method}</button>
+              <button onClick={eventFetchHandler}>{method}</button>
             </ButtonWrapper>
           </FormWrapper>
         </FormPositionWrapper>
