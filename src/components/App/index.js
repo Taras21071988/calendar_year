@@ -93,6 +93,7 @@ function App() {
   const [events, setEvents] = useState([]);
   const [event, setEvent] = useState(null);
   const [isShowForm, setShowForm] = useState(false);
+  const [method, setMethod] = useState(null);
 
   useEffect(() => {
     fetch(`${url}/events?date_gte=${startDateQuery}&date_lte=${endDateQuery}`)
@@ -103,10 +104,11 @@ function App() {
       });
   }, [today]);
 
-  const openFormHandler = (method, eventForUpdate) => {
-    console.log("hi", method);
+  const openFormHandler = (methodName, eventForUpdate) => {
+    console.log("hi", methodName);
     setShowForm(true);
     setEvent(eventForUpdate || defaultEvent);
+    setMethod(methodName);
   };
 
   const cancelButtonHandler = () => {
@@ -136,7 +138,7 @@ function App() {
             />
             <ButtonWrapper>
               <button onClick={cancelButtonHandler}>Cancel</button>
-              <button>+</button>
+              <button>{method}</button>
             </ButtonWrapper>
           </FormWrapper>
         </FormPositionWrapper>
