@@ -29,6 +29,7 @@ const DayWrapper = styled.div`
   align-items: center;
   justify-content: center;
   margin: 2px;
+  cursor: pointer;
 `;
 const CurrentDay = styled.div`
   height: 100%;
@@ -66,7 +67,13 @@ const EventItemWrapper = styled.button`
   text-align: left;
 `;
 
-const CalendarGrid = ({ startDay, today, totalDay, events }) => {
+const CalendarGrid = ({
+  startDay,
+  today,
+  totalDay,
+  events,
+  openFormHandler,
+}) => {
   const day = startDay.clone().subtract(1, "day");
   const daysArray = [...Array(totalDay)].map(() => day.add(1, "day").clone());
   const isCurrentDay = (day) => moment().isSame(day, "day");
@@ -94,7 +101,7 @@ const CalendarGrid = ({ startDay, today, totalDay, events }) => {
           >
             <RowCell $justifycontent={"flex-end"}>
               <ShowDayWrapper>
-                <DayWrapper>
+                <DayWrapper onDoubleClick={() => openFormHandler("Create")}>
                   {isCurrentDay(dayItem) ? (
                     <CurrentDay>{dayItem.format("D")}</CurrentDay>
                   ) : (
@@ -111,7 +118,11 @@ const CalendarGrid = ({ startDay, today, totalDay, events }) => {
                   )
                   .map((event) => (
                     <li key={event.id}>
-                      <EventItemWrapper>{event.title}</EventItemWrapper>
+                      <EventItemWrapper
+                        onDoubleClick={() => openFormHandler("Update", event)}
+                      >
+                        {event.title}
+                      </EventItemWrapper>
                     </li>
                   ))}
               </EventListWrapper>

@@ -15,8 +15,60 @@ const ShadowWrapper = styled.div`
   border-bottom: 2px solid #464648;
   box-shadow: 0 0 0 1px #1a1a1a, 0 8px 20px 6px #888;
 `;
+
+const FormPositionWrapper = styled.div`
+  position: absolute;
+  z-index: 100;
+  background-color: rgba(0, 0, 0, 0.35);
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const FormWrapper = styled(ShadowWrapper)`
+  width: 200px;
+  background-color: #1e1f21;
+  color: #dddddd;
+  box-shadow: unset;
+`;
+
+const EventTitle = styled.input`
+  padding: 4px 14px;
+  font-size: 0.85rem;
+  width: 100%;
+  border: unset;
+  background-color: #1e1f21;
+  color: #dddddd;
+  outline: unset;
+  border-bottom: 1px solid #464648;
+`;
+const EventBody = styled.input`
+  padding: 4px 14px;
+  font-size: 0.85rem;
+  width: 100%;
+  border: unset;
+  background-color: #1e1f21;
+  color: #dddddd;
+  outline: unset;
+  border-bottom: 1px solid #464648;
+`;
+
+const ButtonWrapper = styled.div`
+  padding: 8px 14px;
+  display: flex;
+  justify-content: flex-end;
+`;
+
 const url = "http://localhost:3001";
 const totalDay = 42;
+const defaultEvent = {
+  title: "",
+  description: "",
+};
 
 function App() {
   moment.updateLocale("en", { week: { dow: 1 } });
@@ -38,6 +90,8 @@ function App() {
   const endDateQuery = startDay.clone().add(totalDay, "days").format("X");
 
   const [events, setEvents] = useState([]);
+  const [event, setEvent] = useState(null);
+  const [isShowForm, setShowForm] = useState(false);
 
   useEffect(() => {
     fetch(`${url}/events?date_gte=${startDateQuery}&date_lte=${endDateQuery}`)
@@ -48,22 +102,61 @@ function App() {
       });
   }, [today]);
 
+  const openFormHandler = (method, eventForUpdate) => {
+    console.log("hi", method);
+    setShowForm(true);
+    setEvent(eventForUpdate || defaultEvent);
+  };
+
+  const cancelButtonHandler = () => {
+    setShowForm(false);
+    setEvent(null);
+  };
+  const changeEventHandler = (text, field) => {
+    setEvent((prevState) => ({
+      ...prevState,
+      [field]: text,
+    }));
+  };
   return (
-    <ShadowWrapper>
-      <Header />
-      <Monitor
-        today={today}
-        prevHandler={prevHandler}
-        todayHandler={todayHandler}
-        nextHandler={nextHandler}
-      />
-      <CalendarGrid
-        startDay={startDay}
-        today={today}
-        totalDay={totalDay}
-        events={events}
-      />
-    </ShadowWrapper>
+    <>
+      {isShowForm ? (
+        <FormPositionWrapper onClick={cancelButtonHandler}>
+          <FormWrapper onClick={(e) => e.stopPropagation(e)}>
+            <EventTitle
+              value={event.title}
+              onChange={(e) => changeEventHandler(e.target.value, "title")}
+            />
+            <EventBody
+              value={event.description}
+              onChange={(e) =>
+                changeEventHandler(e.target.value, "description")
+              }
+            />
+            <ButtonWrapper>
+              <button onClick={cancelButtonHandler}>Cancel</button>
+              <button>+</button>
+            </ButtonWrapper>
+          </FormWrapper>
+        </FormPositionWrapper>
+      ) : null}
+      <ShadowWrapper>
+        <Header />
+        <Monitor
+          today={today}
+          prevHandler={prevHandler}
+          todayHandler={todayHandler}
+          nextHandler={nextHandler}
+        />
+        <CalendarGrid
+          startDay={startDay}
+          today={today}
+          totalDay={totalDay}
+          events={events}
+          openFormHandler={openFormHandler}
+        />
+      </ShadowWrapper>
+    </>
   );
 }
 
