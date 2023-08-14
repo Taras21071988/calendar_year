@@ -44,7 +44,7 @@ function App() {
       .then((res) => res.json())
       .then((res) => {
         setEvents(res);
-
+        console.log(res);
       });
   }, [today]);
 
