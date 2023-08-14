@@ -17,6 +17,7 @@ const CellWrapper = styled.div`
 `;
 const RowCell = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: ${(props) =>
     props.$justifycontent ? props.$justifycontent : "flex-start"};
   ${(props) => props.$pr && `padding-right: ${props.$pr * 8}px`}
@@ -28,6 +29,7 @@ const DayWrapper = styled.div`
   align-items: center;
   justify-content: center;
   margin: 2px;
+  cursor: pointer;
 `;
 const CurrentDay = styled.div`
   height: 100%;
@@ -38,8 +40,40 @@ const CurrentDay = styled.div`
   align-items: center;
   justify-content: center;
 `;
+const ShowDayWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;
 
-const CalendarGrid = ({ startDay, today, totalDay, events }) => {
+const EventListWrapper = styled.ul`
+  margin: unset;
+  list-style-position: inside;
+  padding-left: 4px;
+`;
+
+const EventItemWrapper = styled.button`
+  position: relative;
+  left: -14px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 114px;
+  border: unset;
+  background: unset;
+  color: #dddddd;
+  cursor: pointer;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+`;
+
+const CalendarGrid = ({
+  startDay,
+  today,
+  totalDay,
+  events,
+  openFormHandler,
+}) => {
   const day = startDay.clone().subtract(1, "day");
   const daysArray = [...Array(totalDay)].map(() => day.add(1, "day").clone());
   const isCurrentDay = (day) => moment().isSame(day, "day");
@@ -49,7 +83,7 @@ const CalendarGrid = ({ startDay, today, totalDay, events }) => {
     <>
       <GridWrapper $isheader>
         {[...Array(7)].map((_, i) => (
-          <CellWrapper $isheader $isselectedmonth>
+          <CellWrapper key={i} $isheader $isselectedmonth>
             <RowCell $justifycontent={"flex-end"} $pr={1}>
               {moment()
                 .day(i + 1)
@@ -61,18 +95,37 @@ const CalendarGrid = ({ startDay, today, totalDay, events }) => {
       <GridWrapper>
         {daysArray.map((dayItem) => (
           <CellWrapper
-            key={dayItem.format("DDMMYYYY")}
+            key={dayItem.unix()}
             $isweekend={dayItem.day() === 6 || dayItem.day() === 0}
             $isselectedmonth={isSelectedMonth(dayItem)}
           >
             <RowCell $justifycontent={"flex-end"}>
-              <DayWrapper>
-                {isCurrentDay(dayItem) ? (
-                  <CurrentDay>{dayItem.format("D")}</CurrentDay>
-                ) : (
-                  dayItem.format("D")
-                )}
-              </DayWrapper>
+              <ShowDayWrapper>
+                <DayWrapper onDoubleClick={() => openFormHandler("create")}>
+                  {isCurrentDay(dayItem) ? (
+                    <CurrentDay>{dayItem.format("D")}</CurrentDay>
+                  ) : (
+                    dayItem.format("D")
+                  )}
+                </DayWrapper>
+              </ShowDayWrapper>
+              <EventListWrapper>
+                {events
+                  .filter(
+                    (event) =>
+                      event.date >= dayItem.format("X") &&
+                      event.date <= dayItem.clone().endOf("day").format("X")
+                  )
+                  .map((event) => (
+                    <li key={event.id}>
+                      <EventItemWrapper
+                        onDoubleClick={() => openFormHandler("update", event)}
+                      >
+                        {event.title}
+                      </EventItemWrapper>
+                    </li>
+                  ))}
+              </EventListWrapper>
             </RowCell>
           </CellWrapper>
         ))}
