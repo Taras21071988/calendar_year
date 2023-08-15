@@ -5,8 +5,12 @@ import { Monitor } from "../Monitor";
 import { CalendarGrid } from "../CalendarGrid";
 import { styled } from "styled-components";
 import { useState } from "react";
+import { DISPLAY_MODE_DAY, DISPLAY_MODE_MONTH } from "../../helpers/constants";
+import { DayShowComponents } from "../DayShowComponent";
 
 const ShadowWrapper = styled.div`
+  min-width: 850px;
+  height: 702px;
   border-radius: 8px;
   overflow: hidden;
   border-top: 1px solid #737374;
@@ -14,6 +18,8 @@ const ShadowWrapper = styled.div`
   border-right: 1px solid #464648;
   border-bottom: 2px solid #464648;
   box-shadow: 0 0 0 1px #1a1a1a, 0 8px 20px 6px #888;
+  display: flex;
+  flex-direction: column;
 `;
 
 const FormPositionWrapper = styled.div`
@@ -31,6 +37,8 @@ const FormPositionWrapper = styled.div`
 
 const FormWrapper = styled(ShadowWrapper)`
   width: 320px;
+  min-width: 320px;
+  height: 140px;
   background-color: #1e1f21;
   color: #dddddd;
   box-shadow: unset;
@@ -59,18 +67,17 @@ const EventBody = styled.textarea`
   resize: none;
   height: 60px;
 `;
-
-const ButtonWrapper = styled.button`
-  color: ${(props) => (props.$danger ? "#f00" : "#27282a")};
-  border: 1px solid ${(props) => (props.$danger ? "#f00" : "#27282a")};
-  border-radius: 5px;
-  cursor: poiner;
-`;
 const ButtonsWrapper = styled.div`
   padding: 8px 14px;
   display: flex;
   justify-content: center;
   gap: 10px;
+`;
+const ButtonWrapper = styled.button`
+  color: ${(props) => (props.$danger ? "#f00" : "#27282a")};
+  border: 1px solid ${(props) => (props.$danger ? "#f00" : "#27282a")};
+  border-radius: 5px;
+  cursor: poiner;
 `;
 
 const url = "http://localhost:3001";
@@ -89,13 +96,13 @@ function App() {
   const startDay = today.clone().startOf("month").startOf("week");
 
   const prevHandler = () => {
-    setToday((prev) => prev.clone().subtract(1, "month"));
+    setToday((prev) => prev.clone().subtract(1, displayMode));
   };
   const todayHandler = () => {
     setToday(moment());
   };
   const nextHandler = () => {
-    setToday((prev) => prev.clone().add(1, "month"));
+    setToday((prev) => prev.clone().add(1, displayMode));
   };
 
   const startDateQuery = startDay.clone().format("X");
@@ -216,7 +223,7 @@ function App() {
           setDisplayMode={setDisplayMode}
           displayMode={displayMode}
         />
-        {displayMode === "month" ? (
+        {displayMode === DISPLAY_MODE_MONTH ? (
           <CalendarGrid
             startDay={startDay}
             today={today}
@@ -225,12 +232,14 @@ function App() {
             openFormHandler={openFormHandler}
           />
         ) : null}
-        {
-          displayMode === "day" ? (<div>
-            <div>LIST</div>
-            <div>FORM</div>
-          </div>):null
-        }
+        {displayMode === DISPLAY_MODE_DAY ? (
+          <DayShowComponents
+            events={events}
+            today={today}
+            selectedEvent={event}
+            setEvent={setEvent}
+          />
+        ) : null}
       </ShadowWrapper>
     </>
   );

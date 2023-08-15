@@ -1,5 +1,6 @@
 import React from "react";
 import { styled } from "styled-components";
+import { DISPLAY_MODE_DAY, DISPLAY_MODE_MONTH } from "../../helpers/constants";
 
 const DivWrapper = styled("div")`
   display: flex;
@@ -64,19 +65,22 @@ const Monitor = ({
   return (
     <DivWrapper>
       <div>
+        {displayMode === DISPLAY_MODE_DAY ? (
+          <TextWrapper>{today.format("DD")} </TextWrapper>
+        ) : null}
         <TitleWrapper>{today.format("MMMM")}</TitleWrapper>
         <TextWrapper>{today.format("YYYY")} </TextWrapper>
       </div>
       <ButtonsCenterWrapper>
         <ButtonWrapper
-          $unPressed={displayMode === "month"}
-          onClick={() => setDisplayMode("month")}
+          $unPressed={displayMode === DISPLAY_MODE_MONTH}
+          onClick={() => setDisplayMode(DISPLAY_MODE_MONTH)}
         >
           Month
         </ButtonWrapper>
         <ButtonWrapper
-          $unPressed={displayMode === "day"}
-          onClick={() => setDisplayMode("day")}
+          $unPressed={displayMode === DISPLAY_MODE_DAY}
+          onClick={() => setDisplayMode(DISPLAY_MODE_DAY)}
         >
           Day
         </ButtonWrapper>
