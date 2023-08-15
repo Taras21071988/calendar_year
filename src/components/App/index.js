@@ -30,14 +30,15 @@ const FormPositionWrapper = styled.div`
 `;
 
 const FormWrapper = styled(ShadowWrapper)`
-  width: 200px;
+  width: 320px;
   background-color: #1e1f21;
   color: #dddddd;
   box-shadow: unset;
+  padding: 15px;
 `;
 
 const EventTitle = styled.input`
-  padding: 4px 14px;
+  padding: 8px 14px;
   font-size: 0.85rem;
   width: 100%;
   border: unset;
@@ -46,8 +47,8 @@ const EventTitle = styled.input`
   outline: unset;
   border-bottom: 1px solid #464648;
 `;
-const EventBody = styled.input`
-  padding: 4px 14px;
+const EventBody = styled.textarea`
+  padding: 8px 14px;
   font-size: 0.85rem;
   width: 100%;
   border: unset;
@@ -55,12 +56,15 @@ const EventBody = styled.input`
   color: #dddddd;
   outline: unset;
   border-bottom: 1px solid #464648;
+  resize: none;
+  height: 60px;
 `;
 
 const ButtonWrapper = styled.div`
   padding: 8px 14px;
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
+  gap: 10px;
 `;
 
 const url = "http://localhost:3001";
@@ -100,14 +104,12 @@ function App() {
       .then((res) => res.json())
       .then((res) => {
         setEvents(res);
-        console.log(res);
       });
   }, [today]);
 
   const openFormHandler = (methodName, eventForUpdate, dayItem) => {
-    console.log("hi", methodName);
     setShowForm(true);
-    setEvent(eventForUpdate || { ...defaultEvent, date: dayItem.format('X')});
+    setEvent(eventForUpdate || { ...defaultEvent, date: dayItem.format("X") });
     setMethod(methodName);
   };
 
@@ -124,8 +126,8 @@ function App() {
 
   const eventFetchHandler = () => {
     const fetchUrl =
-      method === "update" ? `${url}/events/${event.id}` : `${url}/events`;
-    const httpMethod = method === "update" ? "PATCH" : "POST";
+      method === "Update" ? `${url}/events/${event.id}` : `${url}/events`;
+    const httpMethod = method === "Update" ? "PATCH" : "POST";
     fetch(fetchUrl, {
       method: httpMethod,
       headers: {
@@ -136,13 +138,31 @@ function App() {
       .then((res) => res.json())
       .then((res) => {
         console.log(res);
-        if (method === "update") {
+        if (method === "Update") {
           setEvents((prevState) =>
             prevState.map((eventEl) => (eventEl.id === res.id ? res : eventEl))
           );
         } else {
           setEvents((prevState) => [...prevState, res]);
         }
+        cancelButtonHandler();
+      });
+  };
+
+  const removeEventHandler = () => {
+    const fetchUrl = `${url}/events/${event.id}`;
+    const httpMethod = "DELETE";
+    fetch(fetchUrl, {
+      method: httpMethod,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        setEvents((prevState) =>
+          prevState.filter((eventEl) => eventEl.id !== event.id)
+        );
         cancelButtonHandler();
       });
   };
@@ -154,16 +174,21 @@ function App() {
             <EventTitle
               value={event.title}
               onChange={(e) => changeEventHandler(e.target.value, "title")}
+              placeholder="Название события"
             />
             <EventBody
               value={event.description}
               onChange={(e) =>
                 changeEventHandler(e.target.value, "description")
               }
+              placeholder="Описание события"
             />
             <ButtonWrapper>
               <button onClick={cancelButtonHandler}>Cancel</button>
               <button onClick={eventFetchHandler}>{method}</button>
+              {method === "Update" ? (
+                <button onClick={removeEventHandler}>Remove</button>
+              ) : null}
             </ButtonWrapper>
           </FormWrapper>
         </FormPositionWrapper>

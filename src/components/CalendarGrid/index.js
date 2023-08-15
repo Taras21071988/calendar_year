@@ -49,6 +49,8 @@ const EventListWrapper = styled.ul`
   margin: unset;
   list-style-position: inside;
   padding-left: 4px;
+  background-color: green;
+  border-radius: 16px;
 `;
 
 const EventItemWrapper = styled.button`
@@ -65,6 +67,8 @@ const EventItemWrapper = styled.button`
   margin: 0;
   padding: 0;
   text-align: left;
+  text-align: center;
+  padding: 2px;
 `;
 
 const CalendarGrid = ({
@@ -102,7 +106,7 @@ const CalendarGrid = ({
             <RowCell $justifycontent={"flex-end"}>
               <ShowDayWrapper>
                 <DayWrapper
-                  onDoubleClick={() => openFormHandler("create", null, dayItem)}
+                  onDoubleClick={() => openFormHandler("Create", null, dayItem)}
                 >
                   {isCurrentDay(dayItem) ? (
                     <CurrentDay>{dayItem.format("D")}</CurrentDay>
@@ -121,7 +125,7 @@ const CalendarGrid = ({
                   .map((event) => (
                     <li key={event.id}>
                       <EventItemWrapper
-                        onDoubleClick={() => openFormHandler("update", event)}
+                        onDoubleClick={() => openFormHandler("Update", event)}
                       >
                         {event.title}
                       </EventItemWrapper>
