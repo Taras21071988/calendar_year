@@ -82,6 +82,7 @@ const defaultEvent = {
 };
 
 function App() {
+  const [displayMode, setDisplayMode] = useState("month");
   moment.updateLocale("en", { week: { dow: 1 } });
 
   const [today, setToday] = useState(moment());
@@ -190,10 +191,16 @@ function App() {
               placeholder="Описание события"
             />
             <ButtonsWrapper>
-              <ButtonWrapper onClick={cancelButtonHandler}>Cancel</ButtonWrapper>
-              <ButtonWrapper onClick={eventFetchHandler}>{method}</ButtonWrapper>
+              <ButtonWrapper onClick={cancelButtonHandler}>
+                Cancel
+              </ButtonWrapper>
+              <ButtonWrapper onClick={eventFetchHandler}>
+                {method}
+              </ButtonWrapper>
               {method === "Update" ? (
-                <ButtonWrapper $danger onClick={removeEventHandler}>Remove</ButtonWrapper>
+                <ButtonWrapper $danger onClick={removeEventHandler}>
+                  Remove
+                </ButtonWrapper>
               ) : null}
             </ButtonsWrapper>
           </FormWrapper>
@@ -206,14 +213,24 @@ function App() {
           prevHandler={prevHandler}
           todayHandler={todayHandler}
           nextHandler={nextHandler}
+          setDisplayMode={setDisplayMode}
+          displayMode={displayMode}
         />
-        <CalendarGrid
-          startDay={startDay}
-          today={today}
-          totalDay={totalDay}
-          events={events}
-          openFormHandler={openFormHandler}
-        />
+        {displayMode === "month" ? (
+          <CalendarGrid
+            startDay={startDay}
+            today={today}
+            totalDay={totalDay}
+            events={events}
+            openFormHandler={openFormHandler}
+          />
+        ) : null}
+        {
+          displayMode === "day" ? (<div>
+            <div>LIST</div>
+            <div>FORM</div>
+          </div>):null
+        }
       </ShadowWrapper>
     </>
   );
