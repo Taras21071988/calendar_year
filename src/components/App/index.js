@@ -60,7 +60,13 @@ const EventBody = styled.textarea`
   height: 60px;
 `;
 
-const ButtonWrapper = styled.div`
+const ButtonWrapper = styled.button`
+  color: ${(props) => (props.$danger ? "#f00" : "#27282a")};
+  border: 1px solid ${(props) => (props.$danger ? "#f00" : "#27282a")};
+  border-radius: 5px;
+  cursor: poiner;
+`;
+const ButtonsWrapper = styled.div`
   padding: 8px 14px;
   display: flex;
   justify-content: center;
@@ -183,13 +189,13 @@ function App() {
               }
               placeholder="Описание события"
             />
-            <ButtonWrapper>
-              <button onClick={cancelButtonHandler}>Cancel</button>
-              <button onClick={eventFetchHandler}>{method}</button>
+            <ButtonsWrapper>
+              <ButtonWrapper onClick={cancelButtonHandler}>Cancel</ButtonWrapper>
+              <ButtonWrapper onClick={eventFetchHandler}>{method}</ButtonWrapper>
               {method === "Update" ? (
-                <button onClick={removeEventHandler}>Remove</button>
+                <ButtonWrapper $danger onClick={removeEventHandler}>Remove</ButtonWrapper>
               ) : null}
-            </ButtonWrapper>
+            </ButtonsWrapper>
           </FormWrapper>
         </FormPositionWrapper>
       ) : null}
