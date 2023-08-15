@@ -1,8 +1,6 @@
-import moment from "moment";
 import React from "react";
 import { styled } from "styled-components";
 import { CalendarGridHeader } from "../CalendarGridHeader";
-import { CellWrapper, RowCell } from "../../containers/StyledComponents";
 import { MonthDayList } from "../MonthDaysList";
 
 const GridWrapper = styled.div`
