@@ -1,12 +1,6 @@
 {
   "events": [
     {
-      "id": 1,
-      "title": "go to the bad111",
-      "description": "go to the badDesc",
-      "date": 1691832800
-    },
-    {
       "id": 2,
       "title": "go to the bad2",
       "description": "go to the bad2Desc",

@@ -104,10 +104,10 @@ function App() {
       });
   }, [today]);
 
-  const openFormHandler = (methodName, eventForUpdate) => {
+  const openFormHandler = (methodName, eventForUpdate, dayItem) => {
     console.log("hi", methodName);
     setShowForm(true);
-    setEvent(eventForUpdate || defaultEvent);
+    setEvent(eventForUpdate || { ...defaultEvent, date: dayItem.format('X')});
     setMethod(methodName);
   };
 
