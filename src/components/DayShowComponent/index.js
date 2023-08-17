@@ -11,6 +11,7 @@ import {
   EventTitle,
 } from "../../containers/StyledComponents";
 import { ITEMS_PER_DAY } from "../../helpers/constants";
+import moment from "moment";
 
 const DayShowWrapper = styled("div")`
   display: flex;
@@ -85,7 +86,15 @@ export const DayShowComponents = ({
   const eventList = events.filter((event) =>
     isDayContainCurrentEvent(event, today)
   );
-  const cells = [...new Array(ITEMS_PER_DAY)];
+  const cells = [...new Array(ITEMS_PER_DAY)].map((_, i) => {
+    const temp = [];
+    eventList.forEach((event) => {
+      if (+moment.unix(+event.date).format("H") === i) {
+        temp.push(event);
+      }
+    });
+    return temp;
+  });
   return (
     <DayShowWrapper>
       <EventsListWrapper>
@@ -101,12 +110,16 @@ export const DayShowComponents = ({
           ))}
         </EventListWrapper> */}
         <ScaleWrapper>
-          {cells.map((_, i) => (
+          {cells.map((eventsList, i) => (
             <ScaleCellWrapper key={i}>
               <ScaleCellTimeWrapper>
                 {i ? <>{`${i}`.padStart(2, "0")}:00</> : null}
               </ScaleCellTimeWrapper>
-              <ScaleCellEventWrapper>Array of events</ScaleCellEventWrapper>
+              <ScaleCellEventWrapper>
+                {eventsList.map((event, index) => (
+                  <EventItemWrapper key={index}>{event.title}</EventItemWrapper>
+                ))}
+              </ScaleCellEventWrapper>
             </ScaleCellWrapper>
           ))}
         </ScaleWrapper>
