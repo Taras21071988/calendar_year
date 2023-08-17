@@ -43,3 +43,38 @@ export const EventItemWrapper = styled("button")`
   border: 1px solid #5d5f63;
   border-radius: 2px;
 `;
+
+export const EventTitle = styled.input`
+  padding: 8px 14px;
+  font-size: 0.85rem;
+  width: 100%;
+  border: unset;
+  background-color: #1e1f21;
+  color: #dddddd;
+  outline: unset;
+  border-bottom: 1px solid #464648;
+`;
+export const EventBody = styled.textarea`
+  padding: 8px 14px;
+  font-size: 0.85rem;
+  width: 100%;
+  border: unset;
+  background-color: #1e1f21;
+  color: #dddddd;
+  outline: unset;
+  border-bottom: 1px solid #464648;
+  resize: none;
+  height: 60px;
+`;
+export const ButtonsWrapper = styled.div`
+  padding: 8px 14px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+`;
+export const ButtonWrapper = styled.button`
+  color: ${(props) => (props.$danger ? "#f00" : "#27282a")};
+  border: 1px solid ${(props) => (props.$danger ? "#f00" : "#27282a")};
+  border-radius: 5px;
+  cursor: poiner;
+`;

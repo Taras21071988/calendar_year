@@ -2,9 +2,13 @@ import React from "react";
 import { isDayContainCurrentEvent } from "../../helpers";
 import styled from "styled-components";
 import {
+  ButtonWrapper,
+  ButtonsWrapper,
+  EventBody,
   EventItemWrapper,
   EventListItemWrapper,
   EventListWrapper,
+  EventTitle,
 } from "../../containers/StyledComponents";
 
 const DayShowWrapper = styled("div")`
@@ -58,8 +62,31 @@ export const DayShowComponents = ({
       <EventFormWrapper>
         {selectedEvent ? (
           <div>
-            <h3>{selectedEvent.title}</h3>
-            <h2>{selectedEvent.description}</h2>
+            <EventTitle
+              value={selectedEvent.title}
+              onChange={(e) => changeEventHandler(e.target.value, "title")}
+              placeholder="Название события"
+            />
+            <EventBody
+              value={selectedEvent.description}
+              onChange={(e) =>
+                changeEventHandler(e.target.value, "description")
+              }
+              placeholder="Описание события"
+            />
+            <ButtonsWrapper>
+              <ButtonWrapper onClick={cancelButtonHandler}>
+                Cancel
+              </ButtonWrapper>
+              <ButtonWrapper onClick={eventFetchHandler}>
+                {method}
+              </ButtonWrapper>
+              {method === "Update" ? (
+                <ButtonWrapper $danger onClick={removeEventHandler}>
+                  Remove
+                </ButtonWrapper>
+              ) : null}
+            </ButtonsWrapper>
           </div>
         ) : (
           <NoEventMsg> No event selected</NoEventMsg>
