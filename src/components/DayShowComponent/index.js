@@ -10,6 +10,7 @@ import {
   EventListWrapper,
   EventTitle,
 } from "../../containers/StyledComponents";
+import { ITEMS_PER_DAY } from "../../helpers/constants";
 
 const DayShowWrapper = styled("div")`
   display: flex;
@@ -38,7 +39,6 @@ const NoEventMsg = styled("div")`
   transform: translate(50%, -50%);
 `;
 
-
 export const DayShowComponents = ({
   events,
   today,
@@ -53,10 +53,11 @@ export const DayShowComponents = ({
   const eventList = events.filter((event) =>
     isDayContainCurrentEvent(event, today)
   );
+  const cells = [...new Array(ITEMS_PER_DAY)];
   return (
     <DayShowWrapper>
       <EventsListWrapper>
-        <EventListWrapper>
+        {/* <EventListWrapper>
           {eventList.map((event) => (
             <EventListItemWrapper key={event.id}>
               <EventItemWrapper
@@ -66,7 +67,10 @@ export const DayShowComponents = ({
               </EventItemWrapper>
             </EventListItemWrapper>
           ))}
-        </EventListWrapper>
+        </EventListWrapper> */}
+        {cells.map((_, i) => (
+          <div key={i}>{i}</div>
+        ))}
       </EventsListWrapper>
       <EventFormWrapper>
         {selectedEvent ? (
@@ -100,7 +104,9 @@ export const DayShowComponents = ({
         ) : (
           <>
             <div>
-              <ButtonWrapper onClick={() => openFormHandler("Create", null, today)}>
+              <ButtonWrapper
+                onClick={() => openFormHandler("Create", null, today)}
+              >
                 Создать новую запись
               </ButtonWrapper>
             </div>
