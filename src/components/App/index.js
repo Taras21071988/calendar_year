@@ -7,7 +7,12 @@ import { styled } from "styled-components";
 import { useState } from "react";
 import { DISPLAY_MODE_DAY, DISPLAY_MODE_MONTH } from "../../helpers/constants";
 import { DayShowComponents } from "../DayShowComponent";
-import { ButtonWrapper, ButtonsWrapper, EventBody, EventTitle } from "../../containers/StyledComponents";
+import {
+  ButtonWrapper,
+  ButtonsWrapper,
+  EventBody,
+  EventTitle,
+} from "../../containers/StyledComponents";
 
 const ShadowWrapper = styled.div`
   min-width: 850px;
@@ -88,9 +93,12 @@ function App() {
   }, [today]);
 
   const openFormHandler = (methodName, eventForUpdate, dayItem) => {
-    setShowForm(true);
     setEvent(eventForUpdate || { ...defaultEvent, date: dayItem.format("X") });
     setMethod(methodName);
+  };
+  const openModalFormHandler = (methodName, eventForUpdate, dayItem) => {
+    setShowForm(true);
+    openFormHandler(methodName, eventForUpdate, dayItem);
   };
 
   const cancelButtonHandler = () => {
@@ -195,7 +203,7 @@ function App() {
             today={today}
             totalDay={totalDay}
             events={events}
-            openFormHandler={openFormHandler}
+            openFormHandler={openModalFormHandler}
             setDisplayMode={setDisplayMode}
           />
         ) : null}
@@ -205,6 +213,12 @@ function App() {
             today={today}
             selectedEvent={event}
             setEvent={setEvent}
+            changeEventHandler={changeEventHandler}
+            cancelButtonHandler={cancelButtonHandler}
+            eventFetchHandler={eventFetchHandler}
+            removeEventHandler={removeEventHandler}
+            method={method}
+            openFormHandler={openFormHandler}
           />
         ) : null}
       </ShadowWrapper>

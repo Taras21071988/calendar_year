@@ -14,6 +14,7 @@ import {
 const DayShowWrapper = styled("div")`
   display: flex;
   flex-grow: 1;
+  border-top: 1px solid #464648;
 `;
 
 const EventsListWrapper = styled("div")`
@@ -27,6 +28,7 @@ const EventFormWrapper = styled("div")`
   color: #dddddd;
   width: 300px;
   position: relative;
+  border-left: 1px solid #464648;
 `;
 const NoEventMsg = styled("div")`
   color: #565759;
@@ -36,12 +38,17 @@ const NoEventMsg = styled("div")`
   transform: translate(50%, -50%);
 `;
 
+
 export const DayShowComponents = ({
   events,
   today,
   selectedEvent,
-  setEvent,
-
+  changeEventHandler,
+  cancelButtonHandler,
+  eventFetchHandler,
+  removeEventHandler,
+  method,
+  openFormHandler,
 }) => {
   const eventList = events.filter((event) =>
     isDayContainCurrentEvent(event, today)
@@ -52,7 +59,9 @@ export const DayShowComponents = ({
         <EventListWrapper>
           {eventList.map((event) => (
             <EventListItemWrapper key={event.id}>
-              <EventItemWrapper onClick={() => setEvent(event)}>
+              <EventItemWrapper
+                onClick={() => openFormHandler("Update", event)}
+              >
                 {event.title}
               </EventItemWrapper>
             </EventListItemWrapper>
@@ -89,7 +98,14 @@ export const DayShowComponents = ({
             </ButtonsWrapper>
           </div>
         ) : (
-          <NoEventMsg> No event selected</NoEventMsg>
+          <>
+            <div>
+              <ButtonWrapper onClick={() => openFormHandler("Create", null, today)}>
+                Создать новую запись
+              </ButtonWrapper>
+            </div>
+            <NoEventMsg> No event selected</NoEventMsg>
+          </>
         )}
       </EventFormWrapper>
     </DayShowWrapper>

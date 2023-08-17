@@ -17,6 +17,7 @@ export const EventListWrapper = styled("ul")`
   margin: 0;
   padding: 0;
   list-style: none;
+  padding: 5px;
 `;
 
 export const EventListItemWrapper = styled("li")`
@@ -24,6 +25,7 @@ export const EventListItemWrapper = styled("li")`
   padding-right: 2px;
   margin-bottom: 2px;
   display: flex;
+  margin-bottom: 5px;
 `;
 
 export const EventItemWrapper = styled("button")`
