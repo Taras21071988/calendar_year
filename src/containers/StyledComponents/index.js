@@ -34,16 +34,17 @@ export const EventItemWrapper = styled("button")`
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-  width: 114px;
+  min-width: 50px;
   border: unset;
   color: #dddddd;
   cursor: pointer;
   margin: 0;
-  padding: 0;
-  text-align: left;
+  padding: 1px 5px;
+  text-align: center;
   background-color: #5d5f63;
   border: 1px solid #5d5f63;
-  border-radius: 2px;
+  border-radius: 6px;
+  margin-right: 5px;
 `;
 
 export const EventTitle = styled.input`
