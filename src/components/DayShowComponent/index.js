@@ -38,6 +38,38 @@ const NoEventMsg = styled("div")`
   right: 50%;
   transform: translate(50%, -50%);
 `;
+const ScaleWrapper = styled("div")`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 0 4px;
+`;
+
+const ScaleCellWrapper = styled("div")`
+  flex-grow: 1;
+  position: relative;
+  &:not(:last-child) {
+    border-bottom: 1px solid #464648;
+  }
+  margin-left: 32px;
+`;
+
+const ScaleCellTimeWrapper = styled("div")`
+  position: absolute;
+  left: -26px;
+  top: -6px;
+  font-size: 8px;
+`;
+
+const ScaleCellEventWrapper = styled("div")`
+  min-height: 16px;
+`;
+
+const EventItemButton = styled(EventItemWrapper)`
+  min-width: 50px;
+  width: unset;
+  margin-left: 4px;
+`;
 
 export const DayShowComponents = ({
   events,
@@ -68,9 +100,16 @@ export const DayShowComponents = ({
             </EventListItemWrapper>
           ))}
         </EventListWrapper> */}
-        {cells.map((_, i) => (
-          <div key={i}>{i}</div>
-        ))}
+        <ScaleWrapper>
+          {cells.map((_, i) => (
+            <ScaleCellWrapper key={i}>
+              <ScaleCellTimeWrapper>
+                {i ? <>{`${i}`.padStart(2, "0")}:00</> : null}
+              </ScaleCellTimeWrapper>
+              <ScaleCellEventWrapper>Array of events</ScaleCellEventWrapper>
+            </ScaleCellWrapper>
+          ))}
+        </ScaleWrapper>
       </EventsListWrapper>
       <EventFormWrapper>
         {selectedEvent ? (
