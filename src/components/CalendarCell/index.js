@@ -2,6 +2,7 @@ import React from "react";
 import { CellWrapper, RowCell } from "../../containers/StyledComponents";
 import { isCurrentDay, isSelectedMonth } from "../../helpers";
 import styled from "styled-components";
+import { DISPLAY_MODE_DAY } from "../../helpers/constants";
 
 const DayWrapper = styled.div`
   height: 31px;
@@ -56,7 +57,13 @@ const EventItemWrapper = styled.button`
   border-radius: 4px;
   padding: 1px;
 `;
-export const CalendarCell = ({ dayItem, today, events, openFormHandler }) => {
+export const CalendarCell = ({
+  dayItem,
+  today,
+  events,
+  openFormHandler,
+  setDisplayMode,
+}) => {
   return (
     <CellWrapper
       key={dayItem.unix()}
@@ -87,7 +94,11 @@ export const CalendarCell = ({ dayItem, today, events, openFormHandler }) => {
           ))}
           {events.length > 2 ? (
             <EventListItemWrapper key="show more">
-              <EventItemWrapper>Show more...</EventItemWrapper>
+              <EventItemWrapper
+                onClick={() => setDisplayMode(DISPLAY_MODE_DAY)}
+              >
+                Show more...
+              </EventItemWrapper>
             </EventListItemWrapper>
           ) : null}
         </EventListWrapper>

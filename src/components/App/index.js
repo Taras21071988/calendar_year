@@ -89,7 +89,7 @@ const defaultEvent = {
 };
 
 function App() {
-  const [displayMode, setDisplayMode] = useState("month");
+  const [displayMode, setDisplayMode] = useState(DISPLAY_MODE_MONTH);
   moment.updateLocale("en", { week: { dow: 1 } });
 
   const [today, setToday] = useState(moment());
@@ -230,6 +230,7 @@ function App() {
             totalDay={totalDay}
             events={events}
             openFormHandler={openFormHandler}
+            setDisplayMode={setDisplayMode}
           />
         ) : null}
         {displayMode === DISPLAY_MODE_DAY ? (

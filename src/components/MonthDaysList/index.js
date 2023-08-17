@@ -8,6 +8,7 @@ export const MonthDayList = ({
   events,
   openFormHandler,
   today,
+  setDisplayMode
 }) => {
   const day = startDay.clone().subtract(1, "day");
   const daysArray = [...Array(totalDay)].map(() => day.add(1, "day").clone());
@@ -20,6 +21,7 @@ export const MonthDayList = ({
       )}
       openFormHandler={openFormHandler}
       dayItem={dayItem}
+      setDisplayMode={setDisplayMode}
     />
   ));
 };

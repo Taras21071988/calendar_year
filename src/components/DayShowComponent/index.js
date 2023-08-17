@@ -37,6 +37,7 @@ export const DayShowComponents = ({
   today,
   selectedEvent,
   setEvent,
+
 }) => {
   const eventList = events.filter((event) =>
     isDayContainCurrentEvent(event, today)
