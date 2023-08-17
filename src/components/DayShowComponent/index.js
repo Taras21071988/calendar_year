@@ -117,7 +117,12 @@ export const DayShowComponents = ({
               </ScaleCellTimeWrapper>
               <ScaleCellEventWrapper>
                 {eventsList.map((event, index) => (
-                  <EventItemWrapper key={index}>{event.title}</EventItemWrapper>
+                  <EventItemButton
+                    onClick={() => openFormHandler("Update", event)}
+                    key={index}
+                  >
+                    {event.title}
+                  </EventItemButton>
                 ))}
               </ScaleCellEventWrapper>
             </ScaleCellWrapper>
