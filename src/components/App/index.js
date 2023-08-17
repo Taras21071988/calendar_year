@@ -7,6 +7,12 @@ import { styled } from "styled-components";
 import { useState } from "react";
 import { DISPLAY_MODE_DAY, DISPLAY_MODE_MONTH } from "../../helpers/constants";
 import { DayShowComponents } from "../DayShowComponent";
+import {
+  ButtonWrapper,
+  ButtonsWrapper,
+  EventBody,
+  EventTitle,
+} from "../../containers/StyledComponents";
 
 const ShadowWrapper = styled.div`
   min-width: 850px;
@@ -43,41 +49,6 @@ const FormWrapper = styled(ShadowWrapper)`
   color: #dddddd;
   box-shadow: unset;
   padding: 15px;
-`;
-
-const EventTitle = styled.input`
-  padding: 8px 14px;
-  font-size: 0.85rem;
-  width: 100%;
-  border: unset;
-  background-color: #1e1f21;
-  color: #dddddd;
-  outline: unset;
-  border-bottom: 1px solid #464648;
-`;
-const EventBody = styled.textarea`
-  padding: 8px 14px;
-  font-size: 0.85rem;
-  width: 100%;
-  border: unset;
-  background-color: #1e1f21;
-  color: #dddddd;
-  outline: unset;
-  border-bottom: 1px solid #464648;
-  resize: none;
-  height: 60px;
-`;
-const ButtonsWrapper = styled.div`
-  padding: 8px 14px;
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-`;
-const ButtonWrapper = styled.button`
-  color: ${(props) => (props.$danger ? "#f00" : "#27282a")};
-  border: 1px solid ${(props) => (props.$danger ? "#f00" : "#27282a")};
-  border-radius: 5px;
-  cursor: poiner;
 `;
 
 const url = "http://localhost:3001";
@@ -122,9 +93,12 @@ function App() {
   }, [today]);
 
   const openFormHandler = (methodName, eventForUpdate, dayItem) => {
-    setShowForm(true);
     setEvent(eventForUpdate || { ...defaultEvent, date: dayItem.format("X") });
     setMethod(methodName);
+  };
+  const openModalFormHandler = (methodName, eventForUpdate, dayItem) => {
+    setShowForm(true);
+    openFormHandler(methodName, eventForUpdate, dayItem);
   };
 
   const cancelButtonHandler = () => {
@@ -229,7 +203,7 @@ function App() {
             today={today}
             totalDay={totalDay}
             events={events}
-            openFormHandler={openFormHandler}
+            openFormHandler={openModalFormHandler}
             setDisplayMode={setDisplayMode}
           />
         ) : null}
@@ -239,6 +213,12 @@ function App() {
             today={today}
             selectedEvent={event}
             setEvent={setEvent}
+            changeEventHandler={changeEventHandler}
+            cancelButtonHandler={cancelButtonHandler}
+            eventFetchHandler={eventFetchHandler}
+            removeEventHandler={removeEventHandler}
+            method={method}
+            openFormHandler={openFormHandler}
           />
         ) : null}
       </ShadowWrapper>
