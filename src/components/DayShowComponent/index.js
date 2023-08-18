@@ -1,5 +1,8 @@
-import React, { useState } from "react";
-import { isDayContainCurrentEvent } from "../../helpers";
+import React, { useState, useEffect } from "react";
+import {
+  isDayContainCurrentEvent,
+  isDayContainCurrentTimestamp,
+} from "../../helpers";
 import styled from "styled-components";
 import {
   ButtonWrapper,
@@ -8,7 +11,7 @@ import {
   EventItemWrapper,
   EventTitle,
 } from "../../containers/StyledComponents";
-import { ITEMS_PER_DAY } from "../../helpers/constants";
+import { ITEMS_PER_DAY, ONE_SECOND } from "../../helpers/constants";
 import moment from "moment";
 
 const DayShowWrapper = styled("div")`
@@ -107,7 +110,7 @@ const RedLine = styled.div`
   position: absolute;
   left: 0;
   right: 0;
-  top: ${props=>props.$position}%;
+  top: ${(props) => props.$position}%;
 `;
 
 export const DayShowComponents = ({
@@ -141,11 +144,23 @@ export const DayShowComponents = ({
   };
   const getRedLinePosition = () =>
     ((moment().format("X") - today.format("X")) / 86400) * 100;
+
+  const [, setCounter] = useState(0);
+  useEffect(() => {
+    const timerid = setInterval(() => {
+      setCounter((prevState) => prevState + 1);
+    }, ONE_SECOND);
+    return () => clearInterval(timerid);
+  }, []);
+
   return (
     <DayShowWrapper>
       <EventsListWrapper>
         <ScaleWrapper>
-          <RedLine $position={getRedLinePosition()} />
+          {isDayContainCurrentTimestamp(moment().format("X"), today) ? (
+            <RedLine $position={getRedLinePosition()} />
+          ) : null}
+
           {cells.map((eventsList, i) => (
             <ScaleCellWrapper key={i}>
               <ScaleCellTimeWrapper>
