@@ -43,6 +43,7 @@ const ScaleWrapper = styled("div")`
   display: flex;
   flex-direction: column;
   padding: 0 4px;
+  position: relative;
 `;
 
 const ScaleCellWrapper = styled("div")`
@@ -100,6 +101,14 @@ const HoursButton = styled("button")`
   background-color: unset;
   cursor: pointer;
 `;
+const RedLine = styled.div`
+  background-color: #f00;
+  height: 1px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: ${props=>props.$position}%;
+`;
 
 export const DayShowComponents = ({
   events,
@@ -130,10 +139,13 @@ export const DayShowComponents = ({
     const time = moment.unix(+selectedEvent.date).hour(i).format("X");
     changeEventHandler(time, "date");
   };
+  const getRedLinePosition = () =>
+    ((moment().format("X") - today.format("X")) / 86400) * 100;
   return (
     <DayShowWrapper>
       <EventsListWrapper>
         <ScaleWrapper>
+          <RedLine $position={getRedLinePosition()} />
           {cells.map((eventsList, i) => (
             <ScaleCellWrapper key={i}>
               <ScaleCellTimeWrapper>
