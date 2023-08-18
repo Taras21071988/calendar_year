@@ -98,17 +98,6 @@ export const DayShowComponents = ({
   return (
     <DayShowWrapper>
       <EventsListWrapper>
-        {/* <EventListWrapper>
-          {eventList.map((event) => (
-            <EventListItemWrapper key={event.id}>
-              <EventItemWrapper
-                onClick={() => openFormHandler("Update", event)}
-              >
-                {event.title}
-              </EventItemWrapper>
-            </EventListItemWrapper>
-          ))}
-        </EventListWrapper> */}
         <ScaleWrapper>
           {cells.map((eventsList, i) => (
             <ScaleCellWrapper key={i}>

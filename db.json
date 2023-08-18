@@ -43,22 +43,10 @@
       "id": 19
     },
     {
-      "title": "New event",
-      "description": ")))",
-      "date": "1692359600",
-      "id": 20
-    },
-    {
       "title": "1",
       "description": "1",
       "date": "1692133200",
       "id": 21
-    },
-    {
-      "title": "18",
-      "description": "18",
-      "date": "1692306000",
-      "id": 22
     },
     {
       "title": "###",
@@ -67,8 +55,8 @@
       "id": 23
     },
     {
-      "title": "23",
-      "description": "23",
+      "title": "new event",
+      "description": "))",
       "date": "1692306000",
       "id": 24
     }
