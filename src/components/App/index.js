@@ -56,6 +56,7 @@ const totalDay = 42;
 const defaultEvent = {
   title: "",
   description: "",
+  duration: 1,
   date: moment().format("X"),
 };
 

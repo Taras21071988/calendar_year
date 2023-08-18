@@ -1,76 +1,39 @@
 {
   "events": [
     {
-      "id": 4,
-      "title": "go to the bad4",
-      "description": "go to the bad4DESC",
-      "date": 1699608800
-    },
-    {
-      "title": "Новое Событие",
-      "description": "Описание нового события",
-      "date": "1692046800",
-      "id": 12
-    },
-    {
-      "title": "новое",
-      "description": "1\n",
-      "date": "1692133200",
-      "id": 14
+      "title": "1",
+      "description": "1",
+      "duration": 3,
+      "date": "1692309600",
+      "id": 1
     },
     {
       "title": "2",
       "description": "2",
-      "date": "1692133200",
-      "id": 16
+      "duration": 1,
+      "date": "1692334800",
+      "id": 2
     },
     {
-      "title": "333",
-      "description": "new Events",
-      "date": "1692219600",
-      "id": 17
-    },
-    {
-      "title": "no more",
-      "description": "2",
-      "date": "1692219600",
-      "id": 18
-    },
-    {
-      "title": "New ",
-      "description": "new events",
-      "date": "1692219600",
-      "id": 19
-    },
-    {
-      "title": "1",
-      "description": "1",
-      "date": "1692133200",
-      "id": 21
-    },
-    {
-      "title": "###",
-      "description": "qwe",
-      "date": "1692219600",
-      "id": 23
-    },
-    {
-      "title": "1",
-      "description": "1",
+      "title": "3",
+      "description": "3",
+      "duration": 1,
       "date": "1692306000",
-      "id": 25
-    },
-    {
-      "title": "123",
-      "description": "123",
-      "date": "1692309600",
-      "id": 27
+      "id": 3
     },
     {
       "title": "1",
       "description": "1",
-      "date": "1692313200",
-      "id": 28
+      "duration": 1,
+      "date": "1692396000",
+      "id": 4
+    },
+    {
+      "title": "4",
+      "description": "4",
+      "duration": 23,
+      "date": "1692306000",
+      "id": 5
     }
   ]
 }
