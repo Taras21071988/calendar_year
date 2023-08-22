@@ -101,7 +101,7 @@ const ListOfHours = styled("ul")`
 
 const PositionRelative = styled("div")`
   position: relative;
-  margim-rigth: 5px;
+  margin-right: 5px;
 `;
 
 const HoursButton = styled("button")`
