@@ -13,6 +13,7 @@ import {
 } from "../../containers/StyledComponents";
 import { ITEMS_PER_DAY, ONE_SECOND } from "../../helpers/constants";
 import moment from "moment";
+import { eventsMap } from "../../helpers/eventsMap";
 
 const DayShowWrapper = styled("div")`
   display: flex;
@@ -78,13 +79,15 @@ const EventItemButton = styled(EventItemWrapper)`
   top: ${(props) => props.$top}px;
   left: ${(props) => props.$left}px;
   display: flex;
+  padding: 1px;
+  background-color: rgba(71, 132, 255, 0.5);
+  border: 1px solid rgba(71, 132, 255, 0.75);
 `;
 
 const SelectEventTimeWrapper = styled("div")`
   padding: 8px 14px;
   border-bottom: 1px solid #464648;
   display: flex;
-  gap: 5px;
 `;
 
 const ListOfHours = styled("ul")`
@@ -129,10 +132,36 @@ export const DayShowComponents = ({
   method,
   openFormHandler,
 }) => {
-  const eventWidth = 40;
-  const eventList = events.filter((event) =>
-    isDayContainCurrentEvent(event, today)
-  );
+  const [heightDiv, setHeightDiv] = useState(0);
+  const [widthDiv, setWidthDiv] = useState(0);
+  const [eventMap, setEventMap] = useState([]);
+  const ref = useRef(null);
+  useEffect(() => {
+    const eventList = events.filter((event) =>
+      isDayContainCurrentEvent(event, today)
+    );
+
+    const map = eventsMap(eventList);
+
+    const tempArr = [];
+    map.forEach((column, rank) => {
+      column.forEach((event) => {
+        tempArr.push({ ...event, rank });
+      });
+    });
+
+    console.log("tempArr", tempArr);
+    setEventMap(tempArr);
+    setHeightDiv(ref.current.clientHeight / ITEMS_PER_DAY);
+    setWidthDiv((ref.current.clientWidth - 38) / map.size);
+  }, [events]);
+
+  // const eventWidth = 40;
+  // const eventList = events.filter((event) =>
+  //   isDayContainCurrentEvent(event, today)
+  // );
+  const [showTimePicker, setShowTimePicker] = useState(false);
+  const [showDurationPicker, setShowDurationPicker] = useState(false);
   const cells = [...new Array(ITEMS_PER_DAY)].map((_, i) => {
     // const temp = [];
     // eventList.forEach((event) => {
@@ -142,15 +171,6 @@ export const DayShowComponents = ({
     // });
     // return temp;
   });
-  const [showTimePicker, setShowTimePicker] = useState(false);
-  const [showDurationPicker, setShowDurationPicker] = useState(false);
-  const [, setCounter] = useState(0);
-  const [heightDiv, setHeightDiv] = useState(0);
-  const ref = useRef(null);
-
-  const getTopPosition = (event) => {
-    return heightDiv * +moment.unix(+event.date).format("H");
-  };
 
   const setTimeForEvent = (i) => {
     setShowTimePicker(false);
@@ -161,20 +181,24 @@ export const DayShowComponents = ({
     setShowDurationPicker(false);
     changeEventHandler(i, "duration");
   };
+  const getTopPosition = (event) => {
+    return heightDiv * +moment.unix(+event.date).format("H");
+  };
 
   const getRedLinePosition = () =>
     ((moment().format("X") - today.format("X")) / 86400) * 100;
 
-  useEffect(() => {
-    const timerid = setInterval(() => {
-      setCounter((prevState) => prevState + 1);
-    }, ONE_SECOND);
-    return () => clearInterval(timerid);
-  }, []);
+  // const [, setCounter] = useState(0);
+  // useEffect(() => {
+  //   const timerid = setInterval(() => {
+  //     setCounter((prevState) => prevState + 1);
+  //   }, ONE_SECOND);
+  //   return () => clearInterval(timerid);
+  // }, []);
 
-  useEffect(() => {
-    setHeightDiv(ref.current.clientHeight / ITEMS_PER_DAY);
-  }, []);
+  // useEffect(() => {
+  //   setHeightDiv(ref.current.clientHeight / ITEMS_PER_DAY);
+  // }, []);
   return (
     <DayShowWrapper>
       <EventsListWrapper>
@@ -191,14 +215,14 @@ export const DayShowComponents = ({
               <ScaleCellEventWrapper />
             </ScaleCellWrapper>
           ))}
-          {eventList.map((event, index) => (
+          {eventMap.map((event, index) => (
             <EventItemButton
-              $w={eventWidth}
-              $h={heightDiv * event.duration}
-              $top={getTopPosition(event)}
-              onClick={() => openFormHandler("Update", event)}
               key={index}
-              $left={32 + (eventWidth + 1) * index}
+              $w={widthDiv - 2}
+              $h={heightDiv * event.duration.toFixed(0) - 3}
+              onClick={() => openFormHandler("Update", event)}
+              $left={32 + widthDiv * event.rank}
+              $top={getTopPosition(event) + 1}
             >
               {event.title}
             </EventItemButton>

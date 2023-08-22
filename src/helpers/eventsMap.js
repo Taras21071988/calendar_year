@@ -10,7 +10,6 @@ export const eventsMap = (eventsBunch) => {
       const rowHourItem = rowHours.get(date);
       rowHourItem.set(e.id, e);
     });
-  let i = 0;
   let rowNumber = 0;
   let columnNumber = 0;
   const columnsEventsGroups = new Map();
