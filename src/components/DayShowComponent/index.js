@@ -187,7 +187,7 @@ export const DayShowComponents = ({
     ((moment().format("X") - today.format("X")) / 86400) * 100;
 
   const onDragEndHandler = (e, event) => {
-    console.log(e, event);
+
     const date = moment.unix(+event.date).hour(dropped).format("X");
     updateEventByDragAndDrop({ ...event, date });
   };

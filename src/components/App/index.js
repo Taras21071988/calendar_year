@@ -114,7 +114,7 @@ function App() {
     }));
   };
 
-  const fetchHandler = (fetchUrl,eventForUpdate,httpMethod) => {
+  const fetchHandler = (fetchUrl, eventForUpdate, httpMethod) => {
     fetch(fetchUrl, {
       method: httpMethod,
       headers: {
@@ -124,7 +124,6 @@ function App() {
     })
       .then((res) => res.json())
       .then((res) => {
-        console.log(res);
         if (httpMethod === "PATCH") {
           setEvents((prevState) =>
             prevState.map((eventEl) => (eventEl.id === res.id ? res : eventEl))
@@ -145,7 +144,7 @@ function App() {
 
   const updateEventByDragAndDrop = (dropped) => {
     const fetchUrl = `${url}/events/${dropped.id}`;
-    fetchHandler(fetchUrl,dropped, "PATCH");
+    fetchHandler(fetchUrl, dropped, "PATCH");
   };
   const removeEventHandler = () => {
     const fetchUrl = `${url}/events/${event.id}`;
