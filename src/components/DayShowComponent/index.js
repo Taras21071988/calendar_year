@@ -150,7 +150,7 @@ export const DayShowComponents = ({
       });
     });
 
-    console.log("tempArr", tempArr);
+    // console.log("tempArr", tempArr);
     setEventMap(tempArr);
     setHeightDiv(ref.current.clientHeight / ITEMS_PER_DAY);
     setWidthDiv((ref.current.clientWidth - 38) / map.size);
