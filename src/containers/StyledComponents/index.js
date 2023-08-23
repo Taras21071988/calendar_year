@@ -6,6 +6,7 @@ export const CellWrapper = styled.div`
   background-color: ${(props) => (props.$isweekend ? "#272829" : "#1e1f21")};
   color: ${(props) => (props.$isselectedmonth ? "#dddddd" : "#555759")};
 `;
+
 export const RowCell = styled.div`
   display: flex;
   flex-direction: column;
@@ -13,6 +14,7 @@ export const RowCell = styled.div`
     props.$justifycontent ? props.$justifycontent : "flex-start"};
   ${(props) => props.$pr && `padding-right: ${props.$pr * 8}px`}
 `;
+
 export const EventListWrapper = styled("ul")`
   margin: 0;
   padding: 0;
@@ -57,6 +59,7 @@ export const EventTitle = styled.input`
   outline: unset;
   border-bottom: 1px solid #464648;
 `;
+
 export const EventBody = styled.textarea`
   padding: 8px 14px;
   font-size: 0.85rem;
@@ -69,12 +72,14 @@ export const EventBody = styled.textarea`
   resize: none;
   height: 60px;
 `;
+
 export const ButtonsWrapper = styled.div`
   padding: 8px 14px;
   display: flex;
   justify-content: center;
   gap: 10px;
 `;
+
 export const ButtonWrapper = styled.button`
   color: ${(props) => (props.$danger ? "#f00" : "#27282a")};
   border: 1px solid ${(props) => (props.$danger ? "#f00" : "#27282a")};

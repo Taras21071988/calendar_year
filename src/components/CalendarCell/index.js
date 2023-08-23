@@ -13,6 +13,7 @@ const DayWrapper = styled.div`
   margin: 2px;
   cursor: pointer;
 `;
+
 const CurrentDay = styled.div`
   height: 100%;
   width: 100%;
@@ -22,6 +23,7 @@ const CurrentDay = styled.div`
   align-items: center;
   justify-content: center;
 `;
+
 const ShowDayWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
@@ -32,6 +34,7 @@ const EventListWrapper = styled.ul`
   padding: 0;
   list-style: none;
 `;
+
 const EventListItemWrapper = styled("li")`
   padding-left: 2px;
   padding-right: 2px;
@@ -57,6 +60,7 @@ const EventItemWrapper = styled.button`
   border-radius: 4px;
   padding: 1px;
 `;
+
 export const CalendarCell = ({
   dayItem,
   today,

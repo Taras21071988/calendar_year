@@ -106,6 +106,7 @@ function App() {
     setShowForm(false);
     setEvent(null);
   };
+
   const changeEventHandler = (text, field) => {
     setEvent((prevState) => ({
       ...prevState,
@@ -113,21 +114,18 @@ function App() {
     }));
   };
 
-  const eventFetchHandler = () => {
-    const fetchUrl =
-      method === "Update" ? `${url}/events/${event.id}` : `${url}/events`;
-    const httpMethod = method === "Update" ? "PATCH" : "POST";
+  const fetchHandler = (fetchUrl,eventForUpdate,httpMethod) => {
     fetch(fetchUrl, {
       method: httpMethod,
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(event),
+      body: JSON.stringify(eventForUpdate),
     })
       .then((res) => res.json())
       .then((res) => {
         console.log(res);
-        if (method === "Update") {
+        if (httpMethod === "PATCH") {
           setEvents((prevState) =>
             prevState.map((eventEl) => (eventEl.id === res.id ? res : eventEl))
           );
@@ -138,6 +136,17 @@ function App() {
       });
   };
 
+  const eventFetchHandler = () => {
+    const fetchUrl =
+      method === "Update" ? `${url}/events/${event.id}` : `${url}/events`;
+    const httpMethod = method === "Update" ? "PATCH" : "POST";
+    fetchHandler(fetchUrl, event, httpMethod);
+  };
+
+  const updateEventByDragAndDrop = (dropped) => {
+    const fetchUrl = `${url}/events/${dropped.id}`;
+    fetchHandler(fetchUrl,dropped, "PATCH");
+  };
   const removeEventHandler = () => {
     const fetchUrl = `${url}/events/${event.id}`;
     const httpMethod = "DELETE";
@@ -220,6 +229,7 @@ function App() {
             removeEventHandler={removeEventHandler}
             method={method}
             openFormHandler={openFormHandler}
+            updateEventByDragAndDrop={updateEventByDragAndDrop}
           />
         ) : null}
       </ShadowWrapper>

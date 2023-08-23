@@ -112,6 +112,7 @@ const HoursButton = styled("button")`
   background-color: unset;
   cursor: pointer;
 `;
+
 const RedLine = styled.div`
   background-color: #f00;
   height: 1px;
@@ -131,10 +132,12 @@ export const DayShowComponents = ({
   removeEventHandler,
   method,
   openFormHandler,
+  updateEventByDragAndDrop,
 }) => {
   const [heightDiv, setHeightDiv] = useState(0);
   const [widthDiv, setWidthDiv] = useState(0);
   const [eventMap, setEventMap] = useState([]);
+  const [dropped, setDropped] = useState(null);
   const ref = useRef(null);
   useEffect(() => {
     const eventList = events.filter((event) =>
@@ -150,16 +153,11 @@ export const DayShowComponents = ({
       });
     });
 
-    // console.log("tempArr", tempArr);
     setEventMap(tempArr);
     setHeightDiv(ref.current.clientHeight / ITEMS_PER_DAY);
     setWidthDiv((ref.current.clientWidth - 38) / map.size);
   }, [events]);
 
-  // const eventWidth = 40;
-  // const eventList = events.filter((event) =>
-  //   isDayContainCurrentEvent(event, today)
-  // );
   const [showTimePicker, setShowTimePicker] = useState(false);
   const [showDurationPicker, setShowDurationPicker] = useState(false);
   const cells = [...new Array(ITEMS_PER_DAY)].map((_, i) => {
@@ -188,17 +186,20 @@ export const DayShowComponents = ({
   const getRedLinePosition = () =>
     ((moment().format("X") - today.format("X")) / 86400) * 100;
 
-  // const [, setCounter] = useState(0);
-  // useEffect(() => {
-  //   const timerid = setInterval(() => {
-  //     setCounter((prevState) => prevState + 1);
-  //   }, ONE_SECOND);
-  //   return () => clearInterval(timerid);
-  // }, []);
+  const onDragEndHandler = (e, event) => {
+    console.log(e, event);
+    const date = moment.unix(+event.date).hour(dropped).format("X");
+    updateEventByDragAndDrop({ ...event, date });
+  };
 
-  // useEffect(() => {
-  //   setHeightDiv(ref.current.clientHeight / ITEMS_PER_DAY);
-  // }, []);
+  const onDropHandler = (e, i) => {
+    e.preventDefault();
+    setDropped(i);
+  };
+
+  const onDragOverHandler = (e) => {
+    e.preventDefault();
+  };
   return (
     <DayShowWrapper>
       <EventsListWrapper>
@@ -208,7 +209,11 @@ export const DayShowComponents = ({
           ) : null}
 
           {cells.map((eventsList, i) => (
-            <ScaleCellWrapper key={i}>
+            <ScaleCellWrapper
+              key={i}
+              onDrop={(e) => onDropHandler(e, i)}
+              onDragOver={onDragOverHandler}
+            >
               <ScaleCellTimeWrapper>
                 {i ? <>{`${i}`.padStart(2, "0")}:00</> : null}
               </ScaleCellTimeWrapper>
@@ -217,6 +222,8 @@ export const DayShowComponents = ({
           ))}
           {eventMap.map((event, index) => (
             <EventItemButton
+              draggable
+              onDragEnd={(e) => onDragEndHandler(e, event)}
               key={index}
               $w={widthDiv - 2}
               $h={heightDiv * event.duration.toFixed(0) - 3}
